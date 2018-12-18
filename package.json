@@ -55,16 +55,5 @@
     ],
     "nodemonConfig": {
         "ext": "js json vue"
-    },
-    "eslintConfig":{
-        "parserOptions": {
-            "ecmaVersion": 2017
-        },
-        "env": {
-            "es6": true
-        },
-        "rules":{
-            "semi": [2, "never"]
-        }
     }
 }
