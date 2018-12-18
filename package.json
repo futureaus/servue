@@ -57,6 +57,14 @@
         "ext": "js json vue"
     },
     "eslintConfig":{
-        "semi": "never"
+        "parserOptions": {
+            "ecmaVersion": 2017
+        },
+        "env": {
+            "es6": true
+        },
+        "rules":{
+            "semi": [2, "never"]
+        }
     }
 }

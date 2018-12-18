@@ -5,7 +5,7 @@ var renderer = new Renderer()
 renderer.resources = path.resolve(__dirname, "resources")
 renderer.nodemodules = path.resolve(__dirname,'../node_modules')
 
-const express = require("express");
+const express = require("express")
 const app = express()
 renderer.webpackCommon.module.rules.push({
     test: /\.styl(us)?$/,
