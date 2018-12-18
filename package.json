@@ -1,0 +1,58 @@
+{
+    "name": "servue",
+    "version": "0.5.0",
+    "description": "Super-fast vue webpack server-side renderer",
+    "main": "lib/index.js",
+    "dependencies": {
+        "@babel/core": "7.x",
+        "babel-loader": "^8.0.4",
+        "css-loader": "^2.0.1",
+        "find": "0.x",
+        "memory-fs": "0.x",
+        "unionfs": "3.x",
+        "vue": "2.x",
+        "vue-loader": "^15.4.2",
+        "vue-server-renderer": "2.x",
+        "vue-style-loader": "^4.1.2",
+        "webpack": "^4.27.1",
+        "webpack-merge": "^4.1.5"
+    },
+    "devDependencies": {
+        "simple-vue-component-test": "1.0.0",
+        "ava": "^0.25.0",
+        "axios": "^0.18.0",
+        "codecov": "^3.1.0",
+        "express": "^4.16.4",
+        "generate-release": "^1.1.1",
+        "nodemon": "^1.18.9",
+        "stylus-loader": "^3.0.2",
+        "stylus": "^0.54.5"
+    },
+    "scripts": {
+        "release": "npm test && generate-release",
+        "debug": "nodemon --inspect tests/example/index.js",
+        "start": "node tests/example/index.js",
+        "startNodemon": "nodemon tests/test.js",
+        "lint": "tslint --project tsconfig.json",
+        "pretest": "npm run lint",
+        "test": "TEST=true nyc ava",
+        "coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+        "preversion": "npm test"
+    },
+    "author": "Dominus Vilicus",
+    "license": "MIT",
+    "keywords": [
+        "vue",
+        "express",
+        "node",
+        "ssr",
+        "javascript",
+        "webpack",
+        "stream",
+        "io",
+        "templating"
+    ],
+    "nodemonConfig": {
+        "ext": "js json vue"
+    }
+}
