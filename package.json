@@ -34,7 +34,7 @@
     "debug": "nodemon --inspect tests/example/index.js",
     "start": "node tests/example/index.js",
     "demo": "nodemon tests/demo.js",
-    "lint": "tslint ",
+    "lint": "eslint ",
     "pretest": "npm run lint",
     "test": "jest",
     "coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
