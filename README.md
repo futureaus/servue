@@ -1,5 +1,9 @@
-# vue-pronto
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][cov-image]][cov-url] [![Greenkeeper badge](https://badges.greenkeeper.io/express-vue/vue-pronto.svg)](https://greenkeeper.io/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/51e27f21101e492fabf93dc6d81b8f28)](https://www.codacy.com/app/intothemild/vue-pronto?utm_source=github.com&utm_medium=referral&utm_content=express-vue/vue-pronto&utm_campaign=badger)
+# servue
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Coverage percentage][cov-image]][cov-url]
+[![Greenkeeper badge](greenkeeper-image)](https://greenkeeper.io/)
+[![Codacy Badge](codacy-image)](codacy-url)
 > Rendering Engine for turning Vue files into Javascript Objects
 
 ## Installation
@@ -105,12 +109,12 @@ renderToStream returns a string from res.renderVue to the client
 Apache-2.0 © [Daniel Cherubini](https://github.com/express-vue)
 
 
-[npm-image]: https://badge.fury.io/js/vue-pronto.svg
-[npm-url]: https://npmjs.org/package/vue-pronto
-[travis-image]: https://travis-ci.org/express-vue/vue-pronto.svg?branch=master
-[travis-url]: https://travis-ci.org/express-vue/vue-pronto
-[daviddm-image]: https://david-dm.org/express-vue/vue-pronto.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/express-vue/vue-pronto
-[cov-image]: https://codecov.io/gh/express-vue/vue-pronto/branch/master/graph/badge.svg
-[cov-url]: https://codecov.io/gh/express-vue/vue-pronto
-
+[npm-image]: https://badge.fury.io/js/futureaus/servue.svg
+[npm-url]: https://npmjs.org/package/futureaus/servue
+[travis-image]: https://travis-ci.org/futureaus/servue.svg?branch=master
+[travis-url]: https://travis-ci.org/futureaus/servue
+[greenkeeper-url]: https://badges.greenkeeper.io/futureaus/servue.svg
+[cov-image]: https://codecov.io/gh/futureaus/servue/branch/master/graph/badge.svg
+[cov-url]: https://codecov.io/gh/futureaus/servue
+[codacy-url]: https://www.codacy.com/app/DominusVilicus/servue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=futureaus/servue&amp;utm_campaign=Badge_Grade
+[codacy-image]: https://api.codacy.com/project/badge/Grade/c9e768a6c57b4da69e11f2fbe213edd0

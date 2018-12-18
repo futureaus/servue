@@ -18,15 +18,16 @@
         "webpack-merge": "^4.1.5"
     },
     "devDependencies": {
-        "simple-vue-component-test": "1.0.0",
         "ava": "^0.25.0",
         "axios": "^0.18.0",
         "codecov": "^3.1.0",
+        "eslint": "^5.10.0",
         "express": "^4.16.4",
         "generate-release": "^1.1.1",
         "nodemon": "^1.18.9",
-        "stylus-loader": "^3.0.2",
-        "stylus": "^0.54.5"
+        "simple-vue-component-test": "1.0.0",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2"
     },
     "scripts": {
         "release": "npm test && generate-release",
@@ -54,5 +55,8 @@
     ],
     "nodemonConfig": {
         "ext": "js json vue"
+    },
+    "eslintConfig":{
+        "semi": "never"
     }
 }
