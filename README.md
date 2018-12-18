@@ -105,11 +105,6 @@ renderToStream returns a string from res.renderVue to the client
 ```
 
 
-## License
-
-Apache-2.0 © [Daniel Cherubini](https://github.com/express-vue)
-
-
 [npm-image]: https://badge.fury.io/js/servue.svg
 [npm-url]: https://npmjs.org/package/servue
 [travis-image]: https://travis-ci.org/futureaus/servue.svg?branch=master
