@@ -2,6 +2,7 @@
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Coverage percentage][cov-image]][cov-url]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c4c2c0c7a0dc428591ec1a865937976e)](https://app.codacy.com/app/DominusVilicus/servue?utm_source=github.com&utm_medium=referral&utm_content=futureaus/servue&utm_campaign=Badge_Grade_Dashboard)
 [![Greenkeeper badge](greenkeeper-image)](https://greenkeeper.io/)
 [![Codacy Badge](codacy-image)](codacy-url)
 > Rendering Engine for turning Vue files into Javascript Objects
