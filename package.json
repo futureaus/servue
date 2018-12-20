@@ -10,7 +10,7 @@
         "find": "0.x",
         "memory-fs": "0.x",
         "unionfs": "3.x",
-        "vue": "2.x",
+        "vue": "^2.5.21",
         "vue-loader": "^15.4.2",
         "vue-server-renderer": "2.x",
         "vue-style-loader": "^4.1.2",
@@ -64,6 +64,7 @@
         "ext": "js json vue"
     },
     "jest": {
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "transform": {}
     }
 }
