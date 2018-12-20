@@ -37,5 +37,3 @@ async function render(){
     })
     return html
 }
-
-render().then(html=>console.log(html))
