@@ -24,8 +24,10 @@ import foo from "views/components/component.vue";
 import messageComp from "views/components/message-comp.vue";
 import users from "views/components/users.vue";
 import simple from "simple-vue-component-test/simple.vue";
+import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
+    mixins: [HelloMixin],
     name: 'home',
     head: function (object){
         return {

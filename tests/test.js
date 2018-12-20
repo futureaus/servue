@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 const path = require("path")
 const axios = require("axios")
 const Renderer = require("../lib")
@@ -15,8 +18,8 @@ renderer.webpackCommon.module.rules.push({
 })
 
 test('renders file correctly', async () => {
-    await render()
-})
+    expect(await render())
+}, 10000)
 
 async function render(){
     var response = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
