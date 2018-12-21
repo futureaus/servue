@@ -28,7 +28,6 @@ import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
     mixins: [HelloMixin],
-    name: 'home',
     head: function (object){
         return {
             title: "lala"
@@ -48,7 +47,7 @@ export default {
         users: {
             type: Array,
             default: function() {
-                return [{ name: "default" }];
+                return [{ name: "John" }];
             }
         }
     },

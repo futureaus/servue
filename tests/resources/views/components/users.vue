@@ -10,13 +10,13 @@
 
 <script>
 export default {
-    props: ['title', 'users']
-}
+  props: ["title", "users"]
+};
 </script>
 
 <style lang="css">
-    .test {
-        color: pink;
-        font-size: 20px;
-    }
+.test {
+  color: pink;
+  font-size: 20px;
+}
 </style>
