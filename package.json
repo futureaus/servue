@@ -31,7 +31,7 @@
         "stylus-loader": "^3.0.2"
     },
     "scripts": {
-        "release": "npm test && generate-release",
+        "release": "generate-release",
         "start": "node tests/demo.js",
         "demo": "nodemon tests/demo.js",
         "test": "mocha",
