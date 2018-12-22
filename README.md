@@ -5,105 +5,169 @@
 [![Coverage percentage][cov-image]][cov-url]
 [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
 
-> Rendering Engine for turning Vue files into Javascript Objects
+> Rendering engine for turning vue files into html
+
+*Helping you serve vue with servue*
+
+- [servue](#servue)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Creating your Vue file](#creating-your-vue-file)
+    - [Express Usage](#express-usage)
+    - [Koa Usage](#koa-usage)
+    - [Setting custom path variables](#setting-custom-path-variables)
+    - [Using a custom loader](#using-a-custom-loader)
+  - [Layouts & Head Management](#layouts--head-management)
 
 ## Installation
 
 ```sh
-$ npm install --save vue-pronto
+$ npm install --save servue
 ```
 
 ## Usage
 
-Include the library at the top level like so
-
+### Creating your Vue file
+`resources/home.vue`
+```html
+<template>
+    <div id="app">
+        {{ msg }}
+    </div>
+</template>
+<script>
+export default {
+    data(){
+        return {
+            msg: "Hello World"
+        }
+    }
+}
+</script>
+```
+### Express Usage
+`index.js`
 ```js
-const Pronto = require('vue-pronto');
+const Servue = require("servue")
+const express = require("express")
+
+const app = express()
+var servue = new Servue(__dirname)
+
+app.get('/', async (req, res) => {
+    res.send(await servue.render('home.vue'))
+})
+
+app.listen(2000, () => console.log("listening to port 2000!"))
 ```
 
-Then init the renderer
-
+### Koa Usage
+`index.js`
 ```js
-const renderer = new Pronto({object});
+const Servue = require("servue")
+const Koa = require("koa")
+
+var app = new Koa()
+var servue = new Servue(__dirname)
+
+app.use(async (ctx) => {
+    ctx.body = await servue.render('home.vue')
+})
+
+http.createServer(app.handle()).listen(80)
+```
+### Setting custom path variables
+You may use your own custom paths for folders
+```js
+//Sets views folder path
+servue.resources = path.resolve(__dirname, "resources")
+
+//path of node_modules
+servue.nodemodules = path.resolve(__dirname, 'node_modules')
 ```
 
-This returns 2 main functions.
-It takes 3 params, 2 required and one optional.
+### Using a custom loader
+Here we add support for the stylus language so it can be usedi n vue files
 ```js
-renderer.RenderToString(componentPath, data, [vueOptions]);
-renderer.RenderToStream(componentPath, data, [vueOptions]);
+servue.webpackCommon.module.rules.push({
+    test: /\.styl(us)?$/,
+    use: [
+        'vue-style-loader',
+        'css-loader',
+        'stylus-loader'
+    ]
+})
+```
+```html
+<template>
+    <div class="red">
+        This will be red
+    </div>
+</template>
+<style lang="red">
+    .red{
+        color: red;
+    }
+</style>
 ```
 
-Both methods return a promise. Stream returns a stream, and String returns a string.
+## Layouts & Head Management
+In your top-most layout level, import `headify`, and it will collect all head data and merge it into your `<head>`
 
-## RenderToStream
+`parent-layout.vue`
+```html
+<template>
+    <div id="app">
+        <slot></slot>
+    </div>
+</template>
+<script>
+//import servue-provided head management system (headify)
+import headify from "headify";
 
+export default {
+    mixins: [
+        headify
+    ],
+    head: function(object){ //object is inherited from child view (home.vue)
+        return {
+            meta: `
+                <script src="https://unpkg.com/vue/dist/vue.js"><\/script>
+                ${object.meta ? object.meta : ""}
+            `,
+            title: `
+                <title>${object.title ? object.title + ' - My Website': 'My Website'}</title>
+            `,
+            lala: `<meta name="test">`
+        }
+    }
+}
+</script>
+```
 
-### renderer.RenderToStream(vuefile, data, vueOptions) ⇒ <code>Promise</code>
-renderToStream returns a stream from res.renderVue to the client
+`home.vue`
+```html
+<template>
+    <parent>
+        Hello
+    </parent>
+</template>
+<script>
+import parent from "layouts/parent-layout.vue"\
 
-**Kind**: instance method of [<code>Renderer</code>](#Renderer)
-**Returns**: <code>Promise</code> - - Promise returns a Stream
-
-| Param | Type | Description |
-| --- | --- | --- |
-| vuefile | <code>string</code> | full path to .vue component |
-| data | <code>Object</code> | data to be inserted when generating vue class |
-| vueOptions | <code>Object</code> | vue options to be used when generating head |
-
-## RenderToString
-
-### renderer.RenderToString(vuefile, data, vueOptions) ⇒ <code>Promise</code>
-renderToStream returns a string from res.renderVue to the client
-
-**Kind**: instance method of [<code>Renderer</code>](#Renderer)
-
-| Param | Type |
-| --- | --- |
-| vuefile | <code>string</code> |
-| data | <code>object</code> |
-| vueOptions | <code>object</code> |
-
-
-## VueOptions
-
-```js
-{
-    rootPath: path.join(__dirname, '/../tests'),
-    vueVersion: "2.3.4",
-    template: {
-        body: {
-            start: '<body><div id="app">',
-            end: '</div></body>'
+export default {
+    head: function (object){
+        return {
+            title: "Home" //when set: 'Home - My Website', when unset: 'My Website' - See parent-layout.vue
+            //optional, add meta tags if needed
         }
     },
-    head: {
-        metas: [
-            {
-                property: 'og:title',
-                content: 'Page Title'
-            },
-            {
-                name: 'twitter:title',
-                content: 'Page Title'
-            },
-            {
-                name: 'viewport',
-                content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-            }
-        ],
-        scripts: [
-            {src: 'https://unpkg.com/vue@2.3.4/dist/vue.js'}
-        ], 
-        styles: [
-
-        ]
+    components: {
+        parent //layouts can be multiple layers deep
     }
-    data: {
-        thing: true
-    }
+}
+</script>
 ```
-
 
 [npm-image]: https://badge.fury.io/js/servue.svg
 [npm-url]: https://npmjs.org/package/servue
