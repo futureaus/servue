@@ -1,6 +1,6 @@
 {
     "name": "servue",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "Super-fast vue webpack server-side renderer",
     "main": "lib/index.js",
     "dependencies": {
@@ -34,8 +34,8 @@
         "release": "npm test && generate-release",
         "start": "node tests/demo.js",
         "demo": "nodemon tests/demo.js",
-        "test": "jest",
-        "test-with-coverage": "jest && cat ./coverage/lcov.info | codacy-coverage --token f67c41490e1447d78c00c9179707eed8"
+        "test": "mocha",
+        "test-with-coverage": "mocha && cat ./coverage/lcov.info | codacy-coverage --token f67c41490e1447d78c00c9179707eed8"
     },
     "author": "Dominus Vilicus",
     "license": "MIT",
@@ -56,8 +56,5 @@
     },
     "nodemonConfig": {
         "ext": "js json vue styl"
-    },
-    "jest": {
-        "testEnvironment": "node"
     }
 }
