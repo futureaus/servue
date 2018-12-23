@@ -18,6 +18,7 @@
     - [Setting custom path variables](#setting-custom-path-variables)
     - [Using a custom loader](#using-a-custom-loader)
   - [Layouts & Head Management](#layouts--head-management)
+  - [TODO](#todo)
 
 ## Installation
 
@@ -168,6 +169,14 @@ export default {
 }
 </script>
 ```
+
+## TODO
+
+- [ ] Adding tests
+- [ ] Precompilation function
+- [ ] Improved error reporting
+- [ ] Reduced memory usage 
+- [ ] Improved documentation
 
 [npm-image]: https://badge.fury.io/js/servue.svg
 [npm-url]: https://npmjs.org/package/servue
