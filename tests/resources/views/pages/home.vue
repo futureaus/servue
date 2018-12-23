@@ -70,7 +70,7 @@ export default {
 };
 </script>
 <style lang="stylus">
-    @import 'test'
+    @import '~stylus/test'
 
     .red{
         color red
