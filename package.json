@@ -52,7 +52,7 @@
         "type": "git",
         "url": "git://github.com/futureaus/servue.git"
     },
-    "jest":{
+    "jest": {
         "testEnvironment": "node"
     },
     "nodemonConfig": {
