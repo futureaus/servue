@@ -23,7 +23,7 @@
         "codacy-coverage": "^3.3.0",
         "eslint": "^5.10.0",
         "express": "^4.16.4",
-        "mocha": "^5.2.0",
+        "jest": "^23.6.0",
         "nodemon": "^1.18.9",
         "simple-vue-component-test": "1.0.0",
         "stylus": "^0.54.5",
@@ -32,8 +32,8 @@
     "scripts": {
         "start": "node tests/demo.js",
         "demo": "nodemon tests/demo.js",
-        "test": "mocha",
-        "test-with-coverage": "mocha && cat ./coverage/lcov.info | codacy-coverage --token f67c41490e1447d78c00c9179707eed8"
+        "test": "jest",
+        "test-with-coverage": "jest && cat ./coverage/lcov.info | codacy-coverage --token f67c41490e1447d78c00c9179707eed8"
     },
     "author": "Dominus Vilicus",
     "license": "MIT",
@@ -51,6 +51,9 @@
     "repository": {
         "type": "git",
         "url": "git://github.com/futureaus/servue.git"
+    },
+    "jest":{
+        "testEnvironment": "node"
     },
     "nodemonConfig": {
         "ext": "js json vue styl"

@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-var assert = require('assert')
 const path = require("path")
 const axios = require("axios")
 const Renderer = require("../lib")
@@ -18,7 +14,7 @@ renderer.webpackCommon.module.rules.push({
     ]
 })
 
-describe('renders file correctly', async () => {
+test('renders file correctly', async () => {
     await render()
 }, 10000)
 
