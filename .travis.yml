@@ -4,7 +4,7 @@ node_js:
   - "10"
   - "11"
 install:
-  - npm install
+  - npm install --save-dev
   - npm install -g jest
   - npm install -g codecov
   - npm install -g codacy-coverage
