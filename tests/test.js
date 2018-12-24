@@ -16,7 +16,7 @@ renderer.webpackCommon.module.rules.push({
 
 test('renders file correctly', async () => {
     await render()
-}, 10000)
+}, 20000)
 
 async function render(){
     var response = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
