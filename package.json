@@ -21,6 +21,7 @@
     "devDependencies": {
         "axios": "^0.18.0",
         "codacy-coverage": "^3.3.0",
+        "codecov": "^3.1.0",
         "eslint": "^5.10.0",
         "express": "^4.16.4",
         "jest": "^23.6.0",
@@ -33,7 +34,7 @@
         "start": "node tests/demo.js",
         "demo": "nodemon tests/demo.js",
         "test": "jest",
-        "test-with-coverage": "jest && cat ./coverage/lcov.info | codacy-coverage --token f67c41490e1447d78c00c9179707eed8"
+        "coverage": "codecov && codacy-coverage"
     },
     "author": "Dominus Vilicus",
     "license": "MIT",
@@ -53,7 +54,9 @@
         "url": "git://github.com/futureaus/servue.git"
     },
     "jest": {
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "coverageDirectory": "./coverage/",
+        "collectCoverage": true
     },
     "nodemonConfig": {
         "ext": "js json vue styl"

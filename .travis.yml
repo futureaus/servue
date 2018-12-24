@@ -3,5 +3,9 @@ node_js:
   - "8"
   - "10"
   - "11"
+install:
+  - npm install -g codecov
+  - npm install -g codacy-coverage
 after_success:
-  - ./bin/codecov -e TRAVIS_NODE_VERSION
+  - codecov
+  - codeacy-coverage
