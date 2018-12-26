@@ -1,4 +1,6 @@
-# servue
+# Servue
+
+*Helping you serve vue with servue*
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Codacy Badge][codacy-image]][codacy-url]
@@ -7,9 +9,7 @@
 
 > Rendering engine for turning vue files into html
 
-*Helping you serve vue with servue*
-
-- [servue](#servue)
+- [Servue](#servue)
   - [Installation](#installation)
   - [Usage](#usage)
     - [Creating your Vue file](#creating-your-vue-file)
@@ -17,7 +17,9 @@
     - [Koa Usage](#koa-usage)
     - [Setting custom path variables](#setting-custom-path-variables)
     - [Using a custom loader](#using-a-custom-loader)
+  - [Mode](#mode)
   - [Layouts & Head Management](#layouts--head-management)
+  - [Passing data to vue from server-side](#passing-data-to-vue-from-server-side)
   - [TODO](#todo)
 
 ## Installation
@@ -52,14 +54,15 @@ export default {
 const Servue = require("servue")
 const express = require("express")
 
-const app = express()
-var servue = new Servue(__dirname)
+var app = express()
+var servue = new Servue()
+servue.resources = path.resolve(__dirname, 'resources')
 
 app.get('/', async (req, res) => {
     res.send(await servue.render('home.vue'))
 })
 
-app.listen(2000, () => console.log("listening to port 2000!"))
+app.listen(2000)
 ```
 
 ### Koa Usage
@@ -69,13 +72,14 @@ const Servue = require("servue")
 const Koa = require("koa")
 
 var app = new Koa()
-var servue = new Servue(__dirname)
+var servue = new Servue()
+servue.resources = path.resolve(__dirname, 'resources')
 
 app.use(async (ctx) => {
     ctx.body = await servue.render('home.vue')
 })
 
-http.createServer(app.handle()).listen(80)
+app.listen(2000)
 ```
 ### Setting custom path variables
 You may use your own custom paths for folders
@@ -112,6 +116,15 @@ servue.webpackCommon.module.rules.push({
 </style>
 ```
 
+## Mode
+For faster compilation, you can use the production version of vue.
+
+```js
+servue.mode = "production" //default: "development"
+```
+
+However, this will remove vue development warnings, so it is best to use `development` for debugging & dev.
+
 ## Layouts & Head Management
 In your top-most layout level, import `headify`, and it will collect all head data and merge it into your `<head>`
 
@@ -130,16 +143,16 @@ export default {
     mixins: [
         headify
     ],
-    head: function(object){ //object is inherited from child view (home.vue)
+    head(object){ //object is inherited from child view (home.vue) and can be multiple layers, however variables must be passed 
         return {
             meta: `
-                <script src="https://unpkg.com/vue/dist/vue.js"><\/script>
+                <meta name="hello">
                 ${object.meta ? object.meta : ""}
             `,
             title: `
                 <title>${object.title ? object.title + ' - My Website': 'My Website'}</title>
             `,
-            lala: `<meta name="test">`
+            Foo: `<meta name="bar">` //The object name Foo is irrelvant when compiling, it's just used to have a referrable name when passing variables from children to parent
         }
     }
 }
@@ -154,10 +167,10 @@ export default {
     </parent>
 </template>
 <script>
-import parent from "layouts/parent-layout.vue"\
+import parent from "layouts/parent-layout.vue"
 
 export default {
-    head: function (object){
+    head(object){
         return {
             title: "Home" //when set: 'Home - My Website', when unset: 'My Website' - See parent-layout.vue
             //optional, add meta tags if needed
@@ -170,13 +183,34 @@ export default {
 </script>
 ```
 
+## Passing data to vue from server-side
+You may want to pass data or some API data to your vue. You can simply do this through the context argument
+```js
+let request = await axios.get('...') // { "hello": "world" }
+await servue.render('home.vue', request.data)
+```
+This data is merged with your vue's data function (if there), and can then be accessed by your vue file:
+
+```vue
+<template>
+    <div>
+        {{ hello }}
+    </div>
+</template>
+```
+**Output:**
+```
+<div>
+    world
+</div>
+```
 ## TODO
 
-- [ ] Adding tests
-- [ ] Precompilation function
+- [x] Tests
+- [ ] Precompilation function - NEXT
 - [ ] Improved error reporting
 - [ ] Reduced memory usage 
-- [ ] Improved documentation
+- [x] Improved documentation - In Progress
 
 [npm-image]: https://badge.fury.io/js/servue.svg
 [npm-url]: https://npmjs.org/package/servue

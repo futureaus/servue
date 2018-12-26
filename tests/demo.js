@@ -3,6 +3,8 @@ const axios = require("axios")
 const Servue = require("../lib")
 var servue = new Servue(__dirname)
 servue.nodemodules = path.resolve(__dirname,'../node_modules')
+servue.resources = path.resolve(__dirname, 'demo')
+servue.mode = "production"
 
 const express = require("express")
 const app = express()
@@ -28,9 +30,14 @@ app.get('/', async (req, res) => {
 app.listen(2000, () => console.log("listening to port 2000!"))
 
 async function render(){
-    var response = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
     var html = await servue.render("views/pages/home", {
-        info: response.data,
+        info: {
+            "userId": 1,
+            "id": 1,
+            "title": "delectus aut autem",
+            "completed": false,
+            "lol": "test"
+        },
         msg: "Lala!",
         messageOuter: "Nla Nla"
     })

@@ -1,6 +1,6 @@
 {
     "name": "servue",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "Super-fast vue webpack server-side renderer",
     "main": "lib/index.js",
     "dependencies": {
@@ -24,8 +24,10 @@
         "codecov": "^3.1.0",
         "eslint": "^5.10.0",
         "express": "^4.16.4",
+        "html-tags": "^2.0.0",
         "jest": "^23.6.0",
         "nodemon": "^1.18.9",
+        "sanitize-html": "^1.20.0",
         "simple-vue-component-test": "1.0.0",
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2"
@@ -56,7 +58,10 @@
     "jest": {
         "testEnvironment": "node",
         "coverageDirectory": "./coverage/",
-        "collectCoverage": true
+        "collectCoverage": true,
+        "collectCoverageFrom": [
+            "lib/*.{*}"
+        ]
     },
     "nodemonConfig": {
         "ext": "js json vue styl"

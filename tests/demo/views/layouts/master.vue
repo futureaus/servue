@@ -11,9 +11,9 @@ export default {
         headify
     ],
     head: function(object){
-        return {
+        return { //<script src="https://unpkg.com/vue/dist/vue.js"><\/script>
             meta: `
-                <script src="https://unpkg.com/vue/dist/vue.js"><\/script>
+                
                 ${object.meta}
             `,//MIGHT HAVE ISSUES HERE
             title: `<title>${object.title ? object.title + ' - My Website': 'My Website'}</title>`
