@@ -51,6 +51,7 @@ await servue.render('home') // renders "home.vue" into html string
 - [x] Supports head management
 - [x] Supports imports CSS files and other assets
 - [x] Supports custom language preprocessors (less, pug, etc)
+- [x] No build or compile files, all in-memory
 
 ## Setup
 
@@ -213,7 +214,7 @@ In your top-most layout level, import `servue.vue`, a component automatically pr
             <footer>My Footer</header>
         </template>
         <template slot="head">
-            <title><slot name="title"></title>
+            <title><slot name="title"></slot></title>
             <meta name="meta1">
             <slot name="head"></slot>
         </template>
