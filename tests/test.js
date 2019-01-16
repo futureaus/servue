@@ -54,7 +54,7 @@ describe('render and cache component', ()=>{
     test('caches component', async () => {
         let rendered = sanitize(await renderer.render('component'))
         expect(rendered).toBe(text)
-    }, 30)
+    }, 500)
 })
 
 describe('shared renderer', () => {
