@@ -41,6 +41,8 @@ It's this easy to render `.vue` files:
 await servue.render('home') // renders "home.vue" into html string
 ```
 
+> Requires Node 8+
+
 ### Features
 - [x] Supports precompilation
 - [x] Supports layouts
