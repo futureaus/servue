@@ -1,6 +1,7 @@
 # Servue
 
 *Helping you serve vue with servue*
+
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Codacy Badge][codacy-image]][codacy-url]
