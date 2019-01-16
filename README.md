@@ -28,7 +28,7 @@
 ## Installation
 
 ```
-npm install servue -s
+npm install servue --save
 ```
 
 ## What is servue?
