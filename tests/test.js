@@ -102,8 +102,29 @@ describe('shared renderer', () => {
         // TODO
     }, 20000)
 
-    test('renders component with no nodemodules', async () => {
-        // TODO
+    test('renders component with nodemodules', async () => {
+        var renderer = new Renderer()
+        renderer.resources = compPath
+        renderer.nodemodules = path.resolve(__dirname, '../node_modules')
+
+        let text = readFile(path.resolve(compPath, 'component-with-data'))
+        let rendered = sanitize(await renderer.render('component-with-data', {
+            hello: "world"
+        }))
+        if (genfiles) createFile('component-with-data', rendered)
+        expect(rendered).toBe(text)
+    }, 20000)
+
+    test('renders component without nodemodules', async () => {
+        var renderer = new Renderer()
+        renderer.resources = compPath
+
+        let text = readFile(path.resolve(compPath, 'component-with-data'))
+        let rendered = sanitize(await renderer.render('component-with-data', {
+            hello: "world"
+        }))
+        if (genfiles) createFile('component-with-data', rendered)
+        expect(rendered).toBe(text)
     }, 20000)
 
     test('renders component with template items', async () => {
@@ -113,10 +134,6 @@ describe('shared renderer', () => {
         let rendered = sanitize(await renderer.render('component-with-template'))
         if (genfiles) createFile('component-with-template', rendered)
         expect(rendered).toBe(text)
-    }, 20000)
-
-    test('renders component with no basedir or nodemodules', async () => {
-        // TODO
     }, 20000)
 
     test('renders component in production mode', async () => {
@@ -132,7 +149,27 @@ describe('shared renderer', () => {
     }, 20000)
 })
 
-describe('renderer with modified webpack', ()=> {
+describe('precompiler', () => {
+    test('precompiler compiles entire folder', async ()=>{
+        var renderer = new Renderer()
+        renderer.resources = path.resolve(__dirname, "components")
+
+        await renderer.precompile('precompile')
+    }, 20000)
+    test('precompiler fails', async ()=>{
+        var renderer = new Renderer()
+        renderer.resources = path.resolve(__dirname, "components")
+
+        try {
+            await renderer.precompile('precompilefail')
+            throw new Error('should not reach')
+        } catch (error) {
+            
+        }
+    }, 20000)
+})
+
+describe('renderer with modified webpack', () => {
     test('renders component with preprocessor', async () => {
         var renderer = new Renderer()
         renderer.resources = path.resolve(__dirname, "components")

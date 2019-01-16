@@ -1,8 +1,6 @@
 const path = require("path")
-const axios = require("axios")
 const Servue = require("../lib")
 var servue = new Servue(__dirname)
-servue.nodemodules = path.resolve(__dirname,'../node_modules')
 servue.resources = path.resolve(__dirname, 'demo')
 servue.mode = "production"
 
@@ -18,14 +16,18 @@ servue.webpackCommon.module.rules.push({
     ]
 })
 
+servue.precompile('views/pages')
+    .then(()=>{console.log("Servue: precompiled views")})
+
 app.get('/', async (req, res) => {
     try {
         res.send(await render())
     } catch (err) {
-        console.log(err)
+        console.error(err)
         throw err
     }
 })
+
 
 app.listen(2000, () => console.log("listening to port 2000!"))
 

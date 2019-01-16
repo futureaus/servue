@@ -1,22 +1,25 @@
 <template>
-    <div id="app">
-        <slot name="content"></slot>
-    </div>
+    <servue>
+        <template slot="content">
+            <slot name="content"></slot>
+        </template>
+        <template slot="head">
+            <title>{{ getTitle }}</title>
+            <slot name="head"></slot>
+        </template>
+    </servue>
 </template>
 <script>
-import headify from "headify";
+import servue from "servue.vue";
 
 export default {
-    mixins: [
-        headify
-    ],
-    head: function(object){
-        return { //<script src="https://unpkg.com/vue/dist/vue.js"><\/script>
-            meta: `
-                
-                ${object.meta}
-            `,//MIGHT HAVE ISSUES HERE
-            title: `<title>${object.title ? object.title + ' - My Website': 'My Website'}</title>`
+    components: {
+        servue
+    },
+    computed: {
+        getTitle(){
+            let website = "My Website"
+            return this.$slots.title ? this.$slots.title[0].text + ' - ' + website : website
         }
     }
 }

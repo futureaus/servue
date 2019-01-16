@@ -11,88 +11,160 @@
 
 - [Servue](#servue)
   - [Installation](#installation)
-  - [Usage](#usage)
-    - [Creating your Vue file](#creating-your-vue-file)
+  - [What is servue?](#what-is-servue)
+    - [Features](#features)
+  - [Setup](#setup)
     - [Express Usage](#express-usage)
     - [Koa Usage](#koa-usage)
+  - [Layouts & Views](#layouts--views)
     - [Setting custom path variables](#setting-custom-path-variables)
-    - [Using a custom loader](#using-a-custom-loader)
+    - [Custom Language Support](#custom-language-support)
   - [Mode](#mode)
-  - [Layouts & Head Management](#layouts--head-management)
+  - [Head Management](#head-management)
   - [Passing data to vue from server-side](#passing-data-to-vue-from-server-side)
-  - [TODO](#todo)
+  - [Precompiling Vue Pages](#precompiling-vue-pages)
 
 ## Installation
 
-```sh
-$ npm install --save servue
+```
+npm install servue -s
 ```
 
-## Usage
+## What is servue?
+Servue server-side-renders Vue Single File Components (`.vue` files) into html. It is a fully capable templating engine, and allows users to create nested layouts using slots and components.
 
-### Creating your Vue file
-`resources/home.vue`
-```html
-<template>
-    <div id="app">
-        {{ msg }}
-    </div>
-</template>
-<script>
-export default {
-    data(){
-        return {
-            msg: "Hello World"
-        }
-    }
-}
-</script>
+The renderer provides the correct scripts, and styles on the client-side. It creates no extra build or compiled files. It's perfect for multi-page applications and **great for users wanting to use Vue with Express or Koa**
+
+It's this easy to render `.vue` files:
+```js
+await servue.render('home') // renders "home.vue" into html string
 ```
+
+### Features
+- [x] Supports precompilation
+- [x] Supports layouts
+- [x] Supports templating
+- [x] Supports server-side Rendering
+- [x] Supports head management
+- [x] Supports imports CSS files and other assets
+- [x] Supports custom language preprocessors (less, pug, etc)
+
+## Setup
+
 ### Express Usage
-`index.js`
 ```js
 const Servue = require("servue")
 const express = require("express")
 
 var app = express()
 var servue = new Servue()
-servue.resources = path.resolve(__dirname, 'resources')
+
+servue.resources = path.resolve(__dirname, "resources")
 
 app.get('/', async (req, res) => {
-    res.send(await servue.render('home.vue'))
+    res.send(await servue.render('home')) // renders "./resources/home.vue"
 })
 
 app.listen(2000)
 ```
 
 ### Koa Usage
-`index.js`
 ```js
 const Servue = require("servue")
 const Koa = require("koa")
 
 var app = new Koa()
 var servue = new Servue()
-servue.resources = path.resolve(__dirname, 'resources')
+
+servue.resources = path.resolve(__dirname, "resources")
 
 app.use(async (ctx) => {
-    ctx.body = await servue.render('home.vue')
+    ctx.body = await servue.render('home') // renders "./resources/home.vue"
 })
 
 app.listen(2000)
 ```
+
+## Layouts & Views
+Servue fully supports templating features and allows for multiple and nested layouts using Vue slots.
+
+Here's a simple example:
+
+`layouts/parent.vue`
+```html
+<template>
+    <servue>
+        <template slot="content">
+            <header>Page: <slot name="title"></slot></header>
+            <slot name="content"></slot>
+            <footer>My Footer</header>
+        </template>
+    </servue>
+</template>
+<script>
+/**
+ * IMPORTANT:
+ * You must use "servue.vue" in your top-most layout as shown
+ * It wraps the app in <div id="app"> so it can mount on the client-side
+ * It is required for head management
+ */
+import servue from "servue.vue"
+
+export default {
+    components: {
+        servue
+    }
+}
+</script>
+```
+This layout has a slot for content named `content` and a slot for the title named `title`
+
+Now, the home file can use this layout:
+
+`home.vue`
+```html
+<template>
+    <parent>
+        <template slot="title">Home</template>
+        <template slot="content">
+            Hello
+        </template>
+    </parent>
+</template>
+<script>
+import parent from "layouts/parent.vue"
+
+export default {
+    components: {
+        parent //layouts can be multiple layers deep
+    }
+}
+</script>
+```
+`result output (minus head & body)`
+```html
+<div id="app">
+    <header>Page: Home</header>
+    Hello
+    <footer>My Footer</header>
+</div>
+```
+
 ### Setting custom path variables
 You may use your own custom paths for folders
 ```js
-//Sets views folder path
+//Sets views folder path which contains .vue .css .less .js and etc
 servue.resources = path.resolve(__dirname, "resources")
 
 //path of node_modules
 servue.nodemodules = path.resolve(__dirname, 'node_modules')
 ```
 
-### Using a custom loader
-Here we add support for the stylus language so it can be usedi n vue files
+### Custom Language Support
+Here we add support for the stylus language so it can be used in our `.vue` files.
+
+The same thing can be done for html langauges like pug, or other css pre-processors, like LESS or SCSS.
+
 ```js
 servue.webpackCommon.module.rules.push({
     test: /\.styl(us)?$/,
@@ -125,73 +197,81 @@ servue.mode = "production" //default: "development"
 
 However, this will remove vue development warnings, so it is best to use `development` for debugging & dev.
 
-## Layouts & Head Management
-In your top-most layout level, import `headify`, and it will collect all head data and merge it into your `<head>`
+## Head Management
+In your top-most layout level, import `servue.vue`, a component automatically provided by Servue. It is needed to mount the app on the client-side and needed for head management
 
-`parent-layout.vue`
+`layouts/parent.vue`
 ```html
 <template>
-    <div id="app">
-        <slot></slot>
-    </div>
+    <servue>
+        <template slot="content">
+            <header>Page: <slot name="title"></slot></header>
+            <slot name="content"></slot>
+            <footer>My Footer</header>
+        </template>
+        <template slot="head">
+            <title><slot name="title"></title>
+            <meta name="meta1">
+            <slot name="head"></slot>
+        </template>
+    </servue>
 </template>
 <script>
-//import servue-provided head management system (headify)
-import headify from "headify";
+import servue from "servue.vue"
 
 export default {
-    mixins: [
-        headify
-    ],
-    head(object){ //object is inherited from child view (home.vue) and can be multiple layers, however variables must be passed 
-        return {
-            meta: `
-                <meta name="hello">
-                ${object.meta ? object.meta : ""}
-            `,
-            title: `
-                <title>${object.title ? object.title + ' - My Website': 'My Website'}</title>
-            `,
-            Foo: `<meta name="bar">` //The object name Foo is irrelvant when compiling, it's just used to have a referrable name when passing variables from children to parent
-        }
+    components: {
+        servue
     }
 }
 </script>
 ```
 
+the `head` template slot is rendered into the `<head>` tags on the server-side. The `head` tag can be nested, as shown in `parent.vue`. This means that `home.vue` may optionally pass it's own head to the user.
+
 `home.vue`
 ```html
 <template>
     <parent>
-        Hello
+        <template slot="title">Home</template>
+        <template slot="content">
+            Hello
+        </template>
+        <template slot="head">
+            <meta name="meta2">
+        </template>
     </parent>
 </template>
 <script>
-import parent from "layouts/parent-layout.vue"
+import parent from "layouts/parent.vue"
 
 export default {
-    head(object){
-        return {
-            title: "Home" //when set: 'Home - My Website', when unset: 'My Website' - See parent-layout.vue
-            //optional, add meta tags if needed
-        }
-    },
     components: {
         parent //layouts can be multiple layers deep
     }
 }
 </script>
 ```
+`head output`
+```html
+<head>
+    <title>Home</title>
+    <meta name="meta1">
+    <meta name="meta2">
+    <!-- SERVUE GENERATED STYLES -->
+</head>
+```
 
 ## Passing data to vue from server-side
 You may want to pass data or some API data to your vue. You can simply do this through the context argument
 ```js
-let request = await axios.get('...') // { "hello": "world" }
-await servue.render('home.vue', request.data)
+let request = await axios.get('...') 
+let data = request.data // { "hello": "world" } 
+await servue.render('home.vue', data)
 ```
-This data is merged with your vue's data function (if there), and can then be accessed by your vue file:
+This data is merged with your vue component's data function (if there is one), and can then be accessed by your vue file:
 
-```vue
+```html
 <template>
     <div>
         {{ hello }}
@@ -199,18 +279,29 @@ This data is merged with your vue's data function (if there), and can then be ac
 </template>
 ```
 **Output:**
-```
+```html
 <div>
     world
 </div>
 ```
-## TODO
+## Precompiling Vue Pages
+You may want to precompile vue pages for your multiple-page application. You can do this with the precompile function
+```js
+/**
+ * Since our package uses webpack to transform vue files into rendered
+ * html strings, creating the bundle renderer for each page is memory
+ * intensive. This means it's best to run the renderer for each page
+ * and then cache the bundle so we can reuse it for later requests.
+ * 
+ * Make sure to only render the pages you need, eg: you don't need to
+ * precompile header.vue or footer.vue, only home.vue or about.vue
+ */
 
-- [x] Tests
-- [ ] Precompilation function - NEXT
-- [ ] Improved error reporting
-- [ ] Reduced memory usage 
-- [x] Improved documentation - In Progress
+/**
+ * @param {string} folder - Folder that contains the .vue files to render
+ */
+servue.precompile('pages')
+```
 
 [npm-image]: https://badge.fury.io/js/servue.svg
 [npm-url]: https://npmjs.org/package/servue

@@ -1,5 +1,5 @@
 <template>
-    <parent>
+    <master>
         <template slot="content">
             <h1 class="red">{{msg}}</h1>
             <foo hellodata="component"></foo>
@@ -15,10 +15,14 @@
             <pre>{{info}}</pre>
             <simple></simple>
         </template>
-    </parent>
+        <template slot="head">
+            <meta name="test">
+        </template>
+        <template slot="title">Hello World</template>
+    </master>
 </template>
 <script>
-import parent from "views/layouts/parent.vue"
+import master from "views/layouts/master.vue"
 import axios from "axios";
 import foo from "views/components/component.vue";
 import messageComp from "views/components/message-comp.vue";
@@ -28,11 +32,6 @@ import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
     mixins: [HelloMixin],
-    head: function (object){
-        return {
-            title: "lala"
-        }
-    },
     data: function(){
         return {
             msg: "Hello world!",
@@ -56,7 +55,7 @@ export default {
         messageComp,
         users,
         simple,
-        parent
+        master
     },
     mounted: async function(){
         var response = await axios.get('https://jsonplaceholder.typicode.com/todos/1')
