@@ -10,6 +10,19 @@
 [![NPM Downloads][npm-downloads]][npm-url]
 ![Last Commit][last-commit]
 
+
+[npm-image]: https://img.shields.io/npm/v/servue.svg
+[npm-url]: https://npmjs.org/package/servue
+[travis-image]: https://travis-ci.org/futureaus/servue.svg?branch=master
+[travis-url]: https://travis-ci.org/futureaus/servue
+[cov-image]: https://codecov.io/gh/futureaus/servue/branch/master/graph/badge.svg
+[cov-url]: https://codecov.io/gh/futureaus/servue
+[codacy-image]: https://api.codacy.com/project/badge/Grade/c9e768a6c57b4da69e11f2fbe213edd0
+[codacy-url]: https://www.codacy.com/app/DominusVilicus/servue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=futureaus/servue&amp;utm_campaign=Badge_Grade
+[node]: https://img.shields.io/badge/node%20minimum-8-blue.svg
+[npm-downloads]: https://img.shields.io/npm/dm/servue.svg?colorB=blue
+[last-commit]: https://img.shields.io/github/last-commit/futureaus/servue.svg
+
 > Rendering engine for turning vue files into html
 
 - [Servue](#servue)
@@ -308,15 +321,3 @@ You may want to precompile vue pages for your multiple-page application. You can
  */
 servue.precompile('pages')
 ```
-
-[npm-image]: https://img.shields.io/npm/v/servue.svg
-[npm-url]: https://npmjs.org/package/servue
-[travis-image]: https://travis-ci.org/futureaus/servue.svg?branch=master
-[travis-url]: https://travis-ci.org/futureaus/servue
-[cov-image]: https://codecov.io/gh/futureaus/servue/branch/master/graph/badge.svg
-[cov-url]: https://codecov.io/gh/futureaus/servue
-[codacy-image]: https://api.codacy.com/project/badge/Grade/c9e768a6c57b4da69e11f2fbe213edd0
-[codacy-url]: https://www.codacy.com/app/DominusVilicus/servue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=futureaus/servue&amp;utm_campaign=Badge_Grade
-[node]: https://img.shields.io/badge/node%20minimum-8-blue.svg
-[npm-downloads]: https://img.shields.io/npm/dm/servue.svg?colorB=blue
-[last-commit]: https://img.shields.io/github/last-commit/futureaus/servue.svg
