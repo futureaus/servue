@@ -1,6 +1,6 @@
 {
     "name": "servue",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Super-fast vue webpack server-side renderer",
     "main": "lib/index.js",
     "dependencies": {
