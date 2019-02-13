@@ -1,6 +1,6 @@
 {
     "name": "servue",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "description": "Super-fast vue webpack server-side renderer",
     "main": "lib/index.js",
     "dependencies": {
@@ -10,13 +10,10 @@
         "find": "^0.2.9",
         "memory-fs": "0.4.1",
         "unionfs": "3.0.2",
-        "vue": "^2.6.6",
         "vue-loader": "^15.6.2",
-        "vue-server-renderer": "^2.6.6",
         "vue-style-loader": "^4.1.2",
         "webpack": "^4.28.1",
-        "webpack-merge": "^4.1.5",
-        "vue-template-compiler": "^2.6.6"
+        "webpack-merge": "^4.1.5"
     },
     "devDependencies": {
         "axios": "^0.18.0",
@@ -30,7 +27,15 @@
         "sanitize-html": "^1.20.0",
         "simple-vue-component-test": "1.0.0",
         "stylus": "^0.54.5",
-        "stylus-loader": "^3.0.2"
+        "stylus-loader": "^3.0.2",
+        "vue": "^2.6.6",
+        "vue-server-renderer": "^2.6.6",
+        "vue-template-compiler": "^2.6.6"
+    },
+    "peerDependencies": {
+        "vue": "^2.6.6",
+        "vue-server-renderer": "^2.6.6",
+        "vue-template-compiler": "^2.6.6"
     },
     "scripts": {
         "start": "node tests/demo.js",
