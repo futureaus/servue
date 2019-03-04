@@ -9,7 +9,7 @@
         "css-loader": "^2.0.2",
         "find": "^0.2.9",
         "memory-fs": "0.4.1",
-        "unionfs": "3.0.2",
+        "unionfs": "4.1.0",
         "vue-loader": "^15.6.2",
         "vue-style-loader": "^4.1.2",
         "webpack": "^4.28.1",
