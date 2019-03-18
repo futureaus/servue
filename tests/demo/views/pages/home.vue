@@ -6,6 +6,7 @@
             <p>{{$root.bar}}</p>
             <div v-html="$root.fakehtml"></div>
             <h1>{{title}}</h1>
+            {{ lala }}
             <p>Welcome to the {{title}} demo. Click a link:</p>
             <p>{{$root.sentence}}</p>
             <input v-model="messageOuter" placeholder="edit me">
@@ -31,6 +32,9 @@ import simple from "simple-vue-component-test/simple.vue";
 import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
+    async asyncData(){
+        return { lala : "test" }
+    },
     mixins: [HelloMixin],
     data: function(){
         return {
