@@ -6,9 +6,7 @@
             <p>{{$root.bar}}</p>
             <div v-html="$root.fakehtml"></div>s
             <h1>{{title}}</h1>
-            {{ lala }}
-            <br>
-            {{ context }}
+            {{ test }}
             <p>Welcome to the {{title}} demo. Click a link:</p>
             <p>{{$root.sentence}}</p>
             <input v-model="messageOuter" placeholder="edit me">
@@ -35,7 +33,7 @@ import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
     async asyncData(context){
-        return { lala : "test", test: context.test}
+        return { test: context.test }
     },
     mixins: [HelloMixin],
     data: function(){

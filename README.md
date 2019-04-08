@@ -23,7 +23,7 @@
 [npm-downloads]: https://img.shields.io/npm/dm/servue.svg?colorB=blue
 [last-commit]: https://img.shields.io/github/last-commit/futureaus/servue.svg
 
-> Rendering engine for turning vue files into html
+> Server-side rendering engine that renders vue files into html strings
 
 - [Servue](#servue)
   - [Installation](#installation)
@@ -34,10 +34,12 @@
     - [Koa Usage](#koa-usage)
   - [Layouts & Views](#layouts--views)
     - [Setting custom path variables](#setting-custom-path-variables)
-    - [Custom Language Support](#custom-language-support)
+    - [Custom Preprocessor/Language Support](#custom-preprocessorlanguage-support)
   - [Mode](#mode)
   - [Head Management](#head-management)
   - [Passing data to vue from server-side](#passing-data-to-vue-from-server-side)
+    - [Via `asyncData()` in .vue file](#via-asyncdata-in-vue-file)
+    - [During `.render`](#during-render)
   - [Precompiling Vue Pages](#precompiling-vue-pages)
 
 ## Installation
@@ -179,7 +181,7 @@ servue.resources = path.resolve(__dirname, "resources")
 servue.nodemodules = path.resolve(__dirname, 'node_modules')
 ```
 
-### Custom Language Support
+### Custom Preprocessor/Language Support
 Here we add support for the stylus language so it can be used in our `.vue` files.
 
 The same thing can be done for html langauges like pug, or other css pre-processors, like LESS or SCSS.
@@ -282,11 +284,29 @@ export default {
 ```
 
 ## Passing data to vue from server-side
-You may want to pass data or some API data to your vue. You can simply do this through the context argument
+You may want to pass request data, or some API data to your vue template. There are two main ways to do this.
+
+### Via `asyncData()` in .vue file
+```js
+export default {
+    async asyncData(req){
+        return { url: req.url }
+    }
+}
+```
+```js
+router.get((req, res)=>{
+    return await servue.render('home', {}, req)
+})
+```
+
+### During `.render`
+
+You can simply do this through the context argument
 ```js
 let request = await axios.get('...') 
 let data = request.data // { "hello": "world" } 
-await servue.render('home.vue', data)
+await servue.render('home', data)
 ```
 This data is merged with your vue component's data function (if there is one), and can then be accessed by your vue file:
 

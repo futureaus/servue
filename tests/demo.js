@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
 app.listen(2000, () => console.log("listening to port 2000!"))
 
 async function render(){
-    var html = await servue.render("views/pages/home", {
+    let data = {
         info: {
             "userId": 1,
             "id": 1,
@@ -41,7 +41,23 @@ async function render(){
             "lol": "test"
         },
         msg: "Lala!",
-        messageOuter: "Nla Nla"
-    }, {test: 'lala'})
+        messageOuter: "Nla Nla",
+    }
+
+    var html = await servue.render("views/pages/home", {
+        data: {
+            info: {
+                "userId": 1,
+                "id": 1,
+                "title": "delectus aut autem",
+                "completed": false,
+                "lol": "test"
+            },
+            msg: "Lala!",
+            messageOuter: "Nla Nla",
+        },
+        test: 'lala'
+    })
+
     return html
 }

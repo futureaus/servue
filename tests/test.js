@@ -63,9 +63,9 @@ describe('shared renderer', () => {
     
     test('renders component with data', async () => {
         let text = readFile(path.resolve(compPath, 'component-with-data'))
-        let rendered = sanitize(await renderer.render('component-with-data', {
+        let rendered = sanitize(await renderer.render('component-with-data', {data: {
             hello: "world"
-        }))
+        }}))
         if (genfiles) createFile('component-with-data', rendered)
         expect(rendered).toBe(text)
     }, 20000)
@@ -79,9 +79,7 @@ describe('shared renderer', () => {
     
     test('renders data without cross pollution', async () => {
         let text = readFile(path.resolve(compPath, 'component-with-data2'))
-        let rendered = sanitize(await renderer.render('component-with-data', {
-            
-        }))
+        let rendered = sanitize(await renderer.render('component-with-data'))
         if (genfiles) createFile('component-with-data2', rendered)
         expect(rendered).toBe(text)
     }, 20000)
@@ -108,9 +106,9 @@ describe('shared renderer', () => {
         renderer.nodemodules = path.resolve(__dirname, '../node_modules')
 
         let text = readFile(path.resolve(compPath, 'component-with-data'))
-        let rendered = sanitize(await renderer.render('component-with-data', {
+        let rendered = sanitize(await renderer.render('component-with-data', {data: {
             hello: "world"
-        }))
+        }}))
         if (genfiles) createFile('component-with-data', rendered)
         expect(rendered).toBe(text)
     }, 20000)
