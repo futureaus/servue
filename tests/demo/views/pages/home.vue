@@ -4,9 +4,11 @@
             <h1 class="red">{{msg}}</h1>
             <foo hellodata="component"></foo>
             <p>{{$root.bar}}</p>
-            <div v-html="$root.fakehtml"></div>
+            <div v-html="$root.fakehtml"></div>s
             <h1>{{title}}</h1>
             {{ lala }}
+            <br>
+            {{ context }}
             <p>Welcome to the {{title}} demo. Click a link:</p>
             <p>{{$root.sentence}}</p>
             <input v-model="messageOuter" placeholder="edit me">
@@ -32,14 +34,14 @@ import simple from "simple-vue-component-test/simple.vue";
 import HelloMixin from "views/mixins/helloMixin.js"
 
 export default {
-    async asyncData(){
-        return { lala : "test" }
+    async asyncData(context){
+        return { lala : "test", test: context.test}
     },
     mixins: [HelloMixin],
     data: function(){
         return {
             msg: "Hello world!",
-            messageOuter: "Say Foo"
+            messageOuter: "Say Foos"
         }
     },
     props: {

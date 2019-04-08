@@ -42,6 +42,6 @@ async function render(){
         },
         msg: "Lala!",
         messageOuter: "Nla Nla"
-    })
+    }, {test: 'lala'})
     return html
 }
