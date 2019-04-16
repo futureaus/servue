@@ -2,7 +2,7 @@ const path = require("path")
 const Servue = require("../lib")
 var servue = new Servue(__dirname)
 servue.resources = path.resolve(__dirname, 'demo')
-servue.mode = "production"
+servue.mode = "development"
 
 const express = require("express")
 const app = express()

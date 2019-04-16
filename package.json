@@ -1,6 +1,6 @@
 {
     "name": "servue",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Super-fast vue webpack server-side renderer",
     "main": "lib/index.js",
     "dependencies": {
@@ -29,6 +29,7 @@
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
         "vue": "^2.6.6",
+        "vuex": "^3.1.0",
         "vue-server-renderer": "^2.6.6",
         "vue-template-compiler": "^2.6.6"
     },
