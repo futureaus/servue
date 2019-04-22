@@ -48,13 +48,7 @@
     - [Via `data`](#via-data)
     - [Merge order](#merge-order)
   - [Global State / Cross Component Data](#global-state--cross-component-data)
-  - [Precompiling Vue Pages](#precompiling-vue-pages)
-  - [Future Of This Package](#future-of-this-package)
-    - [To Do List](#to-do-list)
-  - [Package Changelog / Version](#package-changelog--version)
-    - [2.2](#22)
-    - [2.x](#2x)
-      - [Passing data from server](#passing-data-from-server)
+    - [Implementing it](#implementing-it)
 
 ## Installation
 
@@ -362,8 +356,84 @@ Data merges are shallow (via `Object.assign`) and have this priority:
 3. `data()` - If Provided
 
 ## Global State / Cross Component Data
-To manage state globally (across components) and maintain reactivity, Servue has implemented a feature that easily allows you to do so. 
+To manage state globally (across components) and maintain reactivity, Servue has implemented a feature that easily allows you to do so.
 
+All of your components will have access to a reactive object (including 3rd-party components)
+```js
+this.$state
+```
+
+### Implementing it
+
+In your root-level parent layout which you share across multiple pages, you must implement the following code:
+```js
+import statizer from "statizer" //this package is provided with Servue, so you don't need to add it as a dependency in package.json
+
+/**
+ * You must declare all properties that components will use up-front because
+ * of the limitations of Vue's reactivity (which will be fixed in Vue 3.0)
+ * 
+ * To add new properties, you should be able to use:
+ * ```js
+ * Vue.set(this.$state, 'name', val)
+ * ```
+ */
+statizer({
+    me: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        username: null,
+        displayPicture: null
+    }
+})
+
+export default {
+    ...
+}
+```
+
+### Example Use Case
+
+```js
+export default {
+    async serverPrefetch(){
+        // make async api request for user
+
+        let me = {
+            firstName: "Steve"
+        }
+
+        this.$state.firstName = me.firstName
+    }
+}
+
+```
+```js
+export default {
+    async serverPrefetch(){
+        // make async api request for user
+
+        let me = {
+            firstName: "Steve"
+        }
+
+        /**
+         * 
+         * never reassign this.$state or it will lose reference to the global
+         * object, and lose reactivity, if you want to assign a large number of
+         * varibles to the global state, use Object.assign(this.$state, obj)
+         */
+
+        Object.assign(this.$state, {me})
+    }
+}
+```
+
+**Don't do this**
+```js
+this.$state = {foo: "bar" } // this will lose reference to the original global state
+```
 
 
 ## Precompiling Vue Pages
