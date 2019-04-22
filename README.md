@@ -47,9 +47,14 @@
     - [Via `asyncData()` in .vue file](#via-asyncdata-in-vue-file)
     - [Via `data`](#via-data)
     - [Merge order](#merge-order)
+  - [Global State / Cross Component Data](#global-state--cross-component-data)
   - [Precompiling Vue Pages](#precompiling-vue-pages)
-  - [Migrating from 1.x to 2.x](#migrating-from-1x-to-2x)
-    - [Passing data from server](#passing-data-from-server)
+  - [Future Of This Package](#future-of-this-package)
+    - [To Do List](#to-do-list)
+  - [Package Changelog / Version](#package-changelog--version)
+    - [2.2](#22)
+    - [2.x](#2x)
+      - [Passing data from server](#passing-data-from-server)
 
 ## Installation
 
@@ -121,6 +126,8 @@ Servue fully supports templating features and allows for multiple and nested lay
 
 Here's a simple example:
 
+> Ensure you wrap your app/root-level layout with `<servue>`. It is required for Servue to work.
+
 ### `layouts/parent.vue`
 ```html
 <template>
@@ -129,22 +136,11 @@ Here's a simple example:
             <title><slot name="title"></title>
         </template>
         <template slot="content">
-            <h1>Page: <slot name="title"></h1>
+            <h1>The page title is: <slot name="title"></h1>
             <slot name="content">
         </template>
     </servue>
 </template>
-<script>
-//must import this
-//required for client-side mounting and head management
-import servue from "servue.vue"
-
-export default {
-    components: {
-        servue
-    }
-}
-</script>
 ```
 This layout has a slot for content named `content` and a slot for the title named `title`
 
@@ -165,7 +161,7 @@ import parent from "layouts/parent.vue"
 
 export default {
     components: {
-        parent //layouts can be multiple layers deep
+        parent //layouts can be nested, just provide the correct slots
     }
 }
 </script>
@@ -175,14 +171,14 @@ export default {
 <html>
     <head>
         <title>Home</title>
-        <!-- Other Servue injections here -->
+        <!-- CSS, state and head are all automatically injected here -->
     </head>
     <body>
         <div id="app">
-            <h1>Page: Home</h1>
+            <h1>The page title is: Home</h1>
             Hello
         </div>
-        <script>/** client-side script is rendered here **/</script>
+        <script>/** Vue client-side webpack bundle script is rendered here **/</script>
     </body>
 </html>
 ```
@@ -201,26 +197,27 @@ servue.nodemodules = path.resolve(__dirname, 'node_modules')
 
 ```js
 servue.template = (content, context, bundle) => (`
-    <!DOCTYPE html>
-    <html>
-        <head>
-            ${ context.head }
-            ${ context.renderResourceHints() }
-            ${ context.renderStyles() }
-            ${ context.renderState({ windowKey: '__INITIAL_STATE__', contextKey: "data"}) }
-        </head>
-        <body>
-            ${ content }
-            <script>${ bundle.client }</script>
-        </body>
-    </html>
+<!DOCTYPE html>
+<html${ context.htmlattr ? ' ' + context.htmlattr : '' }>
+    <head>
+        ${context.head ? context.head : ''}
+        ${context.renderResourceHints()}
+        ${context.renderStyles()}
+        ${context.renderState({windowKey: '__INITIAL_STATE__', contextKey: "data"})}
+        ${context.renderState({windowKey: '__INITIAL_ROOTSTATE__', contextKey: "state"})}
+    </head>
+    <body>
+        ${content}
+        <script>${bundle.client}</script>
+    </body>
+</html>
 `)
 ```
 
 ## Custom Preprocessor/Language Support
-Here we add support for the stylus language so it can be used in our `.vue` files.
+Here we add support for the LESS/SCSS/Stylus/pug preprocessor language so it can be used in our `.vue` files.
 
-The same thing can be done for html langauges like pug, or other css pre-processors, like LESS or SCSS.
+In this example, we use the `stylus-loader` packagetop to add stylus support to our package.
 
 ```js
 servue.webpackCommon.module.rules.push({
@@ -252,7 +249,7 @@ For faster compilation, you can use the production version of vue.
 servue.mode = "production" //default = "development"
 ```
 
-However, this will remove vue development warnings, so it is best to use `development` for debugging & dev.
+However, this will remove vue development warnings, so it is best to use `development` for debugging & dev as it enables vue dev-tools.
 
 ## Head Management
 ### `layouts/parent.vue`
@@ -261,8 +258,8 @@ However, this will remove vue development warnings, so it is best to use `develo
     <servue>
         <template slot="head">
             <title><slot name="title"></title>
-            <meta name="mymeta">
-            <slot name="head">
+            <meta name="og:title" content="This is my Facebook OpenGraph title">
+            <slot name="head"> <!-- Pass slot for head in-case other child vues want to add additional elements to the head -->
         </template>
         <template slot="content">
             <h1>Page: <slot name="title"></h1>
@@ -270,15 +267,6 @@ However, this will remove vue development warnings, so it is best to use `develo
         </template>
     </servue>
 </template>
-<script>
-import servue from "servue.vue"
-
-export default {
-    components: {
-        servue
-    }
-}
-</script>
 ```
 
 the `head` template slot is rendered into the `<head>` tags on the server-side. The `head` tag can be nested, as shown in `parent.vue`. This means that `home.vue` may optionally pass it's own head to the user.
@@ -301,7 +289,7 @@ import parent from "layouts/parent.vue"
 
 export default {
     components: {
-        parent //layouts can be nested
+        parent //layouts can be nested, just provide the correct slots
     }
 }
 </script>
@@ -373,29 +361,80 @@ Data merges are shallow (via `Object.assign`) and have this priority:
 2. `servue.render('home', {data})` - If Provided
 3. `data()` - If Provided
 
+## Global State / Cross Component Data
+To manage state globally (across components) and maintain reactivity, Servue has implemented a feature that easily allows you to do so. 
+
+
 
 ## Precompiling Vue Pages
-You may want to precompile vue pages for your multiple-page application. You can do this with the precompile function
+It's a memory intensive process to compile the `.vue` SFCs. After they are compiled once, they are cached and rerendered at a far greater speed.
+
+This means that the first time a `.vue` SFC is rendered, it will take a few seconds to do so. **You don't want this in a production environment**, so we have an option for you to precompile all `.vue` files so your users get the fastest speeds when visiting your website.
+
+You can do this with the precompile function
 ```js
 /**
- * Since our package uses webpack to transform vue files into rendered
- * html strings, creating the bundle renderer for each page is memory
- * intensive. This means it's best to run the renderer for each page
- * and then cache the bundle so we can reuse it for later requests.
- * 
- * Make sure to only render the pages you need, eg: you don't need to
- * precompile header.vue or footer.vue, only home.vue or about.vue
+ * ----------
+ * IMPORTANT:
+ * ----------
+ * Make sure to only precompile the pages you need, eg: you don't need to
+ * precompile header.vue` or footer.vue, only home.vue or about.vue,
+ * so seperate the actual full pages into a seperate folder.
  */
 
 /**
  * @param {string} folder - Folder that contains the .vue files to render
+ * @returns {Promise<void>}
  */
-servue.precompile('pages')
+await servue.precompile('pages')
 ```
 
-## Migrating from 1.x to 2.x
+## Future Of This Package
+I may be further developing this package into a full MPA (multi-page apps) and SPA (single-page apps) capable application with internal routing using Vue Router.
 
-### Passing data from server
+It does somewhat unalign with the original goals of the project which was to easily integrate with `koa` and `express`, but it still will, just in a different way.
+
+### To Do List
+
+- [x] Implement state management
+- [ ] Reduce RAM usage by deleting virtual memory files after caching the renderers
+- [ ] Make package more applicable for single page applications (SPAs)
+- [ ] Potentially create an option for creating and serving build/dist files (as it takes a lot of ram and CPU to regenerate each SFC)
+- [ ] Add hot-reloading
+- [ ] Improve docs, create website
+- [ ] Alternatively, create a nuxtjs "competitor" with servues head management system and layouts
+
+## Package Changelog / Version
+
+### 2.2
+You're no longer required to import the servue component in your master/parent layouts. It's automatically injected into every `.vue` SFC
+```html
+<template>
+    <servue>
+        Your content
+    </servue>
+</template>
+<script>
+import servue from "servue.vue"
+
+export default {
+    components: {
+        servue
+    }
+}
+</script>
+```
+**Now becomes**
+```html
+<template>
+    <servue>
+        Your content
+    </servue>
+</template>
+```
+
+### 2.x
+#### Passing data from server
 We've changed the way data is passed from the server to the vue files
 
 ```js
@@ -412,7 +451,8 @@ This was done because `req/res` or `ctx` data is often required in `.vue` files 
 
 ```js
 router.get('home', (ctx)=>{
-    servue.render('home', {ctx})
+    let data = {...}
+    servue.render('home', {data, ctx})
 })
 ```
 Accessible in asyncData by

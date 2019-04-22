@@ -10,12 +10,19 @@
     </servue>
 </template>
 <script>
-import servue from "servue.vue";
+import statizer from "statizer"
+
+statizer({
+    me: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        username: null,
+        displayPicture: null
+    }
+})
 
 export default {
-    components: {
-        servue
-    },
     computed: {
         getTitle(){
             let website = "My Website"

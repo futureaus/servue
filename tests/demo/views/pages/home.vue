@@ -30,31 +30,11 @@ import messageComp from "views/components/message-comp.vue";
 import users from "views/components/users.vue";
 import simple from "simple-vue-component-test/simple.vue";
 import HelloMixin from "views/mixins/helloMixin.js"
-import Vuex from "vuex"
-import Vue from "vue"
-
-Vue.use(Vuex)
 
 export default {
     async asyncData(context){
         return { test: context.test }
     },
-    store: new Vuex.Store({
-        state: ()=>({
-            me: {
-                firstName: null,
-                lastName: null,
-                email: null,
-                username: null,
-                displayPicture: null
-            }
-        }),
-        mutations: {
-            updateUser(state, user){
-                state.me = user
-            }
-        }
-    }),
     mixins: [HelloMixin],
     data: function(){
         return {
@@ -71,8 +51,7 @@ export default {
             username: "johnsmith"
         }
 
-        this.$store.commit('updateUser', me)
-        this.$ssrContext.storeState = this.$store.state
+        this.$state.me = me
     },
     props: {
         title: {
@@ -101,8 +80,6 @@ export default {
             asdasd: "Hello world!",
             messageasdasdOuter: "Say Foo"
         })
-
-        console.log(this.$store.state)
     },
 };
 </script>

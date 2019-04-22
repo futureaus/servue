@@ -5,6 +5,7 @@
               <a v-bind:href="`/users/${user.name}`"class="test">{{ user.name }}</a>
           </li>
       </ul>
+      {{ $state.me }}
   </div>
 </template>
 
