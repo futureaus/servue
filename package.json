@@ -41,7 +41,7 @@
     "scripts": {
         "start": "node tests/demo.js",
         "demo": "nodemon tests/demo.js",
-        "test": "jest",
+        "test": "eslint --ext .js lib && jest",
         "coverage": "codecov && codacy-coverage"
     },
     "author": "Dominus Vilicus",

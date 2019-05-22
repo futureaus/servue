@@ -6,7 +6,15 @@
     "env": {
         "es6": true
     },
-    "rules":{
-        "semi": [2, "never"]
+    "rules": {
+        "semi": [
+            2,
+            "never"
+        ],
+        "quotes": [
+            2,
+            "single",
+            "avoid-escape"
+        ]
     }
 }
