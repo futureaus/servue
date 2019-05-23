@@ -55,6 +55,12 @@
 ```
 npm install servue --save
 ```
+Then install peer dependencies (so you can control your vue version
+```
+npm install vue --save
+npm install vue-server-renderer --save
+npm install vue-template-compiler --save
+```
 
 ## What is servue?
 Servue server-side-renders Vue Single File Components (`.vue` files) into html. It is a fully capable templating engine, and allows users to create nested layouts using slots and components.
