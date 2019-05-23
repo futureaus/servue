@@ -127,11 +127,11 @@ Here's a simple example:
 <template>
     <servue>
         <template slot="head">
-            <title><slot name="title"></slot></title>
+            <title><slot name="title"/></title>
         </template>
         <template slot="content">
             <h1>The page title is: <slot name="title"></slot></h1>
-            <slot name="content"></slot>
+            <slot name="content"/>
         </template>
     </servue>
 </template>
@@ -251,13 +251,13 @@ However, this will remove vue development warnings, so it is best to use `develo
 <template>
     <servue>
         <template slot="head">
-            <title><slot name="title"></slot></title>
+            <title><slot name="title"/></title>
             <meta name="og:title" content="This is my Facebook OpenGraph title">
-            <slot name="head"></slot> <!-- Pass slot for head in-case other child vues want to add additional elements to the head -->
+            <slot name="head"/> <!-- Pass slot for head in-case other child vues want to add additional elements to the head -->
         </template>
         <template slot="content">
-            <h1>Page: <slot name="title"></slot></h1>
-            <slot name="content"></slot>
+            <h1>Page: <slot name="title"/></h1>
+            <slot name="content"/>
         </template>
     </servue>
 </template>
