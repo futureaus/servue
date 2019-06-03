@@ -55,7 +55,7 @@
 ```
 npm install servue --save
 ```
-Then install peer dependencies (so you can control your vue version
+Then install peer dependencies (so you can control your vue version)
 ```
 npm install vue --save
 npm install vue-server-renderer --save
