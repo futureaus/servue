@@ -49,6 +49,15 @@
     - [Merge order](#merge-order)
   - [Global State / Cross Component Data](#global-state--cross-component-data)
     - [Implementing it](#implementing-it)
+    - [Example Use Case](#example-use-case)
+  - [Precompiling Vue Pages](#precompiling-vue-pages)
+  - [Future Of This Package](#future-of-this-package)
+    - [To Do List](#to-do-list)
+  - [Package Changelog / Version](#package-changelog--version)
+    - [2.2](#22)
+    - [2.x](#2x)
+      - [Passing data from server](#passing-data-from-server)
+    - [Used for](#used-for)
 
 ## Installation
 
@@ -542,3 +551,5 @@ export default {
 }
 ```
 
+### Used for
+[Future Australia Party Website](https://future.org.au) - [Promatia Government Website](https://promatia.com) - [Arkovia Government Website](https://arkovia.com)
