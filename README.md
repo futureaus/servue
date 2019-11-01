@@ -551,5 +551,4 @@ export default {
 }
 ```
 
-### Used for
-[Future Australia Party Website](https://future.org.au) - [Promatia Government Website](https://promatia.com) - [Arkovia Government Website](https://arkovia.com)
+[Future Australia Party Website](https://future.org.au) - [Promatia Government Website](https://promatia.com) - [Arkovia Government Website](https://arkovia.com) - [Proma Times](https://promatimes.com)
