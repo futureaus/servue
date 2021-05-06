@@ -24,7 +24,7 @@
         "html-tags": "^3.0.0",
         "jest": "^23.6.0",
         "nodemon": "^1.19.0",
-        "sanitize-html": "^1.20.1",
+        "sanitize-html": "^2.3.2",
         "simple-vue-component-test": "1.0.0",
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
